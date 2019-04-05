@@ -1,13 +1,15 @@
 /**
  * \file
  *
- * \brief GCC linker script (sram) for ATSAME70Q21
+ * \brief GCC linker script (sram) for ATSAME70Q21B
  *
- * Copyright (c) 2018 Atmel Corporation, a wholly owned subsidiary of Microchip Technology Inc.
+ * Copyright (c) 2019 Microchip Technology Inc.
  *
  * \license_start
  *
  * \page License
+ *
+ * SPDX-License-Identifier: Apache-2.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,11 +28,12 @@
  */
 
 /*------------------------------------------------------------------------------
- *      Linker script for running in internal SRAM on the ATSAME70Q21
+ *      Linker script for running in internal SRAM on the ATSAME70Q21B
  *----------------------------------------------------------------------------*/
 
 OUTPUT_FORMAT("elf32-littlearm", "elf32-littlearm", "elf32-littlearm")
 OUTPUT_ARCH(arm)
+SEARCH_DIR(.)
 
 /* Memory Spaces Definitions */
 MEMORY
@@ -73,7 +76,7 @@ SECTIONS
         KEEP (*(.init_array))
         __init_array_end = .;
 
-        . = ALIGN(0x4);
+        . = ALIGN(4);
         KEEP (*crtbegin.o(.ctors))
         KEEP (*(EXCLUDE_FILE (*crtend.o) .ctors))
         KEEP (*(SORT(.ctors.*)))

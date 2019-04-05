@@ -20,17 +20,17 @@ CFLAGS += -fno-common -ffunction-sections -fdata-sections -std=gnu99
 LDFLAGS += --static -Wl,--gc-sections
 
 # Target specific flags
-DEFS += -D__SAMC21J18A__
-ARCH_FLAGS := -mthumb -mcpu=cortex-m0plus
-LDFLAGS += -Tstartup/samc21j18a_flash.ld
+DEFS += -D__SAME70Q21B__
+ARCH_FLAGS := -mthumb -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-d16
+LDFLAGS += -Tstartup/same70q21b_flash.ld
 
 subdirs = $(patsubst %/,%,$(filter %/,$(wildcard $(1)/*/)))
 
 # Include directories
 INC_DIRS := \
 atstart/config \
-atstart/CMSIS/Include \
-atstart/samc21/include \
+atstart/CMSIS/Core/Include \
+atstart/same70b/include \
 atstart/hri \
 $(call subdirs,atstart/hpl) \
 atstart/hal/utils/include \
