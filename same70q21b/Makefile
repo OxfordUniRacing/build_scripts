@@ -14,8 +14,7 @@ endif
 
 # Compile flags
 CPPFLAGS += -MD -MP -include memcpy_override.h
-CFLAGS += -Wall -Wextra
-CFLAGS += -Wmissing-prototypes -Wstrict-prototypes
+CFLAGS += -Wall -Wextra -Wmissing-prototypes -Wstrict-prototypes
 CFLAGS += -fno-common -ffunction-sections -fdata-sections -std=gnu99
 LDFLAGS += --static -Wl,--gc-sections
 
