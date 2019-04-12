@@ -3,20 +3,21 @@ OUTPUT_FILE_NAME = projectname
 
 # Flags for debug and release builds
 ifndef RELEASE
-	CFLAGS += -ggdb3 -O0
+	CFLAGS += -ggdb3 -Og
 	DEFS += -DDEBUG
 	BUILD_DIR ?= Debug
 else
 	CFLAGS += -ggdb3 -O2
-	DEFS += -DRELEASE
+	DEFS += -DNDEBUG
 	BUILD_DIR ?= Release
 endif
 
 # Compile flags
-CPPFLAGS += -MD -MP -include memcpy_override.h
+DEFS += -DUSE_SIMPLE_ASSERT=1
+CPPFLAGS += -MD -MP
 CFLAGS += -Wall -Wextra -Wmissing-prototypes -Wstrict-prototypes
 CFLAGS += -fno-common -ffunction-sections -fdata-sections -std=gnu99
-LDFLAGS += --static -Wl,--gc-sections
+LDFLAGS += --static -Wl,--gc-sections --specs=nosys.specs
 
 # Target specific flags
 DEFS += -D__SAME70Q21B__
@@ -43,6 +44,7 @@ startup \
 $(call subdirs,atstart/hpl) \
 atstart/hal/utils/src \
 atstart/hal/src \
+atstart/diskio \
 atstart \
 .
 
@@ -77,6 +79,10 @@ $(OUT_DIRS):
 $(BUILD_DIR)/%.o: %.c
 	@printf "  CC      $(<)\n"
 	$(Q)$(CC) $(CPPFLAGS) $(DEFS) $(INCS) $(CFLAGS) $(ARCH_FLAGS) -o $(@) -c $(<)
+
+$(BUILD_DIR)/atstart/hpl/usbhs/hpl_usbhs.o: atstart/hpl/usbhs/hpl_usbhs.c
+	@printf "  CC      $(<)\n"
+	$(Q)$(CC) -include memcpy_usb.h $(CPPFLAGS) $(DEFS) $(INCS) $(CFLAGS) $(ARCH_FLAGS) -o $(@) -c $(<)
 
 $(BUILD_DIR)/%.elf: $(OBJS)
 	@printf "  LD      $(@)\n"
